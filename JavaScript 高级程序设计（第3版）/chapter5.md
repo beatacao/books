@@ -1,0 +1,77 @@
+# 引用类型
+引用类型的值（对象）是引用类型的一个实例。ECMAScript 中，引用类型是一种数据结构，为了把数据和功能组织在一起，它也常被称为类。尽管ECMAScript从技术上讲是面向对象编程的语言，但它不具备传统面向对象语言的类和接口等基本结构。引用类型也被成为对象定义，因为它描述的是一类对象所具有的属性和方法。
+虽然类和引用类型很相似，但它们不是相同的概念。
+
+## 5.1 对象定义
+1. new Object
+2. 字面量定义，为了简化创建包含大量属性的对象定义。使用改方法定义对象时，并没有调用Object构造函数。
+3. 定义空对象，即是定义了一个只包含默认属性和方法的对象
+4. 对象属性如果为数值类型，会自动转化为字符串
+5. 对象属性访问方式：点访问，方括号；其中方括号访问支持变量或非法字符（比如空格）
+
+ps: 
+1. 新概念 - 语句上下文，表达式上下文
+2. 传递参数：用命名参数定义必传参数，多个选传参数可以用对象形式
+
+## 5.2 数组
+1. 通过改变数组length属性的值，可以实现对数组元素的增删
+2. 类型检测：instanceof (多个全局执行环境下检测会有问题)，Array.isArray, Object.prototype.toString.call
+3. 转换方法：每个对象均有toLocaleString, toString, valueOf 方法；数组的 toLocaleString 和 toString 方法是通过调用数组中每一项的toLocaleString 和 toString 方法得到每一项的字符串表示，再通过逗号连接起来的字符串；数组的valueOf 返回的仍是数组。ps: alert接收字符串作为参数，所以alert(arr)会弹出arr的字符串表示
+4. 栈、队列、反向队列方法：push，pop, shift, unshift 方法的组合，可以模拟栈（push, pop），队列(push, shift)，反向队列(unshift, pop)
+5. 重排序方法：reverse, sort; reverse只是简单反转了数组元素的顺序； sort默认是对数组中每个元素的字符串表示进行比较（对每项元素调用toString字符串化后进行比较，因此默认情况下对数值类型数组排序并不是我们想要的），可以接受一个回调函数来自定义排序逻辑；PS: 由于ECMAScript 标准并没有对sort中使用什么算法做明确规定，因此各个浏览器都有自己的实现算法，算法的时间复杂度和运行时间也会有差异。
+6. 操作方法：  
+    concat(复制原始数组，并将参数种的每一项添加到复制数组末尾，返回新数组)  
+    slice(从原始数组复制元素，生成新数组，如果是两个参数，不包含第二个参数所在位置元素)  
+    splice(会修改原始数组，可以删除，添加袁数组元素，返回包含被删除元素的数组，如果没有元素被删除，返回空数组)
+7. 位置查找：indexOf, lastIndexOf, 第二个参数表示查找起始位置索引，不是必传；比较操作使用的是全等运算符，如下：  
+    var person = {name: 'aaa'}  
+    var arr = [{name: 'aaa'}]  
+    var arr2 = [person]  
+    arr.indexOf(person) //-1  
+    arr2.indexOf(person) //0  
+8. 迭代方法，所有迭代方法都不会修改原数组；所有迭代方法接受两个参数，第一个是函数类型，该函数接受三个参数（数组元素值，数组元素索引，数组）；第二参数不是必须的，表示运行第一个参数函数是的作用域；  
+    every,some: 返回逻辑值  
+    filter, map：返回新生成的数组  
+    forEach: 没有返回值  
+9. 归并方法：ECMAScript5 添加的新方法，reduce, reduceRight; 不会修改原数组，返回对数组种每个元素执行某种归并操作后的运算值；
+
+## 5.3 Date对象 --- 待细读
+
+## 5.4 RegExp --- 待细读
+
+## 5.5 Function
+
+1. 函数是对象（Function的实例），函数名是指向函数对象的指针  
+2. 三种定义方式：函数声明，函数表达式，Function构造函数（不推荐，因为引擎需要解析两次，有性能问题）  
+    function sum(a,b){
+        return a+b;
+    }
+    var anotherSum = sum
+    sum(10, 10) //20
+    sum = null
+    anotherSum(10, 10) //20, 虽然sum已经被重置为null, anotherSum仍能顺利执行，说明函数名是指针  
+3. 函数声明和函数表达式区别：函数声明提升和普通变量提升的区别  
+4. 函数内部两个对象：arguments, this  
+    arguments: 类数组，包含传入函数的所有参数，主要作用是保存参数。该对象有个 callee 属性，该属性为一个指针，指向拥有该arguments对象的函数。callee 属性一般用于解除递归调用中对自身函数名的耦合。
+    this: 函数据以执行的环境对象
+    caller: ECMAScript5新添加。函数对象属性，该属性保存着当前函数的调用者的引用。也可通过arguments.callee.caller 来访问。arguments.caller 始终返回undefined; 在严格模式下 arguments.callee 和 argument.caller 都是不可用的；  
+    ps: 非严格模式下，定义arguments.caller 是出于安全考虑，区分 caller 和 arguments.caller，这样第三方代码在相同的执行环境下， 就不能窥视其他代码了。  
+5. 函数的属性和方法：函数为对象，它也有属性和方法  
+    属性：length(函数期望传入的命名参数的个数)， prototype  
+    方法：apply, call, bind(这三个方法均非继承而来)；ps: 严格模式下，全局调用函数，并不会把this默认指向window, 而是指向 undefined
+    继承而来的方法：toString, toLocaleString, 这两个方法均会返回函数源代码，在不同浏览器下会有所不同，有的会返回函数代码的内部表示（即解析器解析过后的代码），对调试有帮助。
+
+## 5.6 基本包装类型
+
+1. 读取基本类型时，js内部进行的隐式包装类型创建和销毁  
+2. 基本类型，通过new 构造函数和不带 new关键字的构造函数创建时，区别  
+    var a = new Object(12)  
+    var b = new Number(10)
+    var c = Number(5)  
+    typeof a    //object
+    typeof b    //object
+    typeof c    //number
+    a instanceof Object //true
+    a instanceof Number //true  
+
+    ps： Number 的几种方法：toFixed, toExponential, toPrecision, 这三种方法均可以指定最后保留几位数，并且均由自动舍入功能
