@@ -73,5 +73,13 @@ ps:
     typeof c    //number
     a instanceof Object //true
     a instanceof Number //true  
-
-    ps： Number 的几种方法：toFixed, toExponential, toPrecision, 这三种方法均可以指定最后保留几位数，并且均由自动舍入功能
+3. Number 的几种方法：toFixed, toExponential, toPrecision, 这三种方法均可以指定最后保留几位数，并且均由自动舍入功能
+4. String: 访问字符串种每个字符，charAt, charCodeAt, 方括号;  
+    字符串截取：substr, substring, slice, 均不改变原字符串，参数为负数时，substr(第一个参数为负数，转化为length-n, 第二个参数为负数，转换为0)； substring(所有参数为负数时，统一转换为0)； slice(所有参数为负数时，统一转换为length-n)
+    字符位置：indexOf, lastIndexOf
+    ECMAScript5新增方法：trim, trimLeft, trimRight, 这三个方法会创建原字符串的副本并去除头尾空格，原字符串不会改变；
+    大小写转换：toLowerCase, toUpperCase, toLocaleLowerCase, toLocaleUpperCase, 一般情况，针对地区的方法和通用方法返回的值是相同的，但是，某些特殊语言（如土耳其语）会对unicode大小写转换应用特殊的规则，因此，在不确定自己的代码在何种语言环境运行的时候，最好使用针对地区的方法  
+    > *字符串的模式匹配方法：match, search, replace , split --- 待细读+实践*  
+    字符串比较：localeCompare       
+    String构造函数本身还有一个静态方法：fromCharCode: String.fromCharCode(104,101) //'he'  
+    HTML方法：不建议使用,如：var txt = 'text'; txt.anchor('name'); 会生成字符串："<a name='name'>text</a>"
