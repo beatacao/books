@@ -82,4 +82,14 @@ ps:
     > *字符串的模式匹配方法：match, search, replace , split --- 待细读+实践*  
     字符串比较：localeCompare       
     String构造函数本身还有一个静态方法：fromCharCode: String.fromCharCode(104,101) //'he'  
-    HTML方法：不建议使用,如：var txt = 'text'; txt.anchor('name'); 会生成字符串："<a name='name'>text</a>"
+    HTML方法：不建议使用,如：var txt = 'text'; txt.anchor('name'); 会生成字符串："<a name='name'>text</a>" 
+    
+## 5.7 单体内置对象 
+
+1. 内置对象：由ECMAScript实现提供，不依赖宿主环境的对象，这些对象在ECMAScript程序执行之前就已经存在。开发人员不必显示的实例化内置对象。内置对象包括：Array, Object, String等。ECMA-262还定义了两个单体内置对象：Math 和 Global  
+2. Global对象：ECMAScript中的Global对象，在某种程度上充当了‘兜底对象’的角色，即当属性或方法不属于任何其他对象时，就属于Global对象。在web浏览器中，是将该对象作为window对象的一部分加以实现的。 
+3. URI编码方法：encodeURI, encodeURIComponent；   
+> 参考：  
+> http://www.ruanyifeng.com/blog/2010/02/url_encoding.html  
+> https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/encodeURI  
+
