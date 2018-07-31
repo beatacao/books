@@ -83,13 +83,37 @@ ps:
     字符串比较：localeCompare       
     String构造函数本身还有一个静态方法：fromCharCode: String.fromCharCode(104,101) //'he'  
     HTML方法：不建议使用,如：var txt = 'text'; txt.anchor('name'); 会生成字符串："<a name='name'>text</a>" 
-    
+
 ## 5.7 单体内置对象 
 
 1. 内置对象：由ECMAScript实现提供，不依赖宿主环境的对象，这些对象在ECMAScript程序执行之前就已经存在。开发人员不必显示的实例化内置对象。内置对象包括：Array, Object, String等。ECMA-262还定义了两个单体内置对象：Math 和 Global  
-2. Global对象：ECMAScript中的Global对象，在某种程度上充当了‘兜底对象’的角色，即当属性或方法不属于任何其他对象时，就属于Global对象。在web浏览器中，是将该对象作为window对象的一部分加以实现的。 
-3. URI编码方法：encodeURI, encodeURIComponent；   
-> 参考：  
-> http://www.ruanyifeng.com/blog/2010/02/url_encoding.html  
-> https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/encodeURI  
+2. Global对象：ECMAScript中的Global对象，在某种程度上充当了‘兜底对象’的角色，即当属性或方法不属于任何其他对象时，就属于Global对象。在web浏览器中，是将该对象作为window对象的一部分加以实现的。    
+    #### 2.1. URI编码方法：encodeURI, encodeURIComponent；  
+
+    > 参考：  
+    > http://www.ruanyifeng.com/blog/2010/02/url_encoding.html  
+    > https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/encodeURI  
+
+    #### 2.2 eval  
+
+    . 像是一个完整的ECMAScript解析器，接收一个ECMASCript(或javascript)字符串作为参数。  
+    . 参数不是字符串时，将原封不动返回参数  
+    . 当解析器遇到eval时，会将其参数作为ECMAScript语句来解析，并将执行结果插入到原位置。  
+    . 通过eval执行的代码，被认为是包含本次调用的执行环境的一部分，因此与该执行环境有着相同的作用域链。即：eval可以访问该执行环境外部变量和函数，eval中定义的变量和函数，也可以被其后执行的代码调用。  
+    . eval中的代码没有变量提升，只有在执行时才被创建。  
+    . 间接调用eval时，其所在作用域为全局作用域，如下： 
+
+        function test() {  
+            var x = 2, y = 4;  
+            console.log(eval("x + y"));  // 直接调用，使用本地作用域，结果是 6  
+            var geval = eval; // 等价于在全局作用域调用  
+            console.log(geval("x + y")); // 间接调用，使用全局作用域，throws ReferenceError 因为`x`未定义  
+            (0, eval)('x + y'); // 另一间接调用的例子  
+        ​}  
+    
+    . 严格模式下，在外部访问不到eval中定义的任何变量和方法。给eval赋值也会报错。  
+    . 应尽量避免使用eval（易读性差，不能提前编译和进行优化，因此相对于替代方法，一般会比较慢，存在安全隐患，压缩混淆有时会报错）
+    . 安全：注意代码注入。 eval中执行的代码会看到外部执行环境。  
+    . 引申问题：javascript 为什么不推荐用 eval ?
+3. Math 对象：保存数学公式和信息
 
