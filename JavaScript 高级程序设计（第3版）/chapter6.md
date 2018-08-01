@@ -22,4 +22,64 @@
 . 四个描述访问器属性的特性：[[Configurable]], [[Enumerable]] （默认true）, [[Get]], [[Set]] (默认 Undefined)  
 
     在早起浏览器版本中，没有 setter 和 getter方法，可以通过两个非标准方法来定义访问器属性：__defineGetter__, __defineSetter. 
-    不支持 Object.defineProperty 方法的浏览器中，不能修改 [[Configurable]], [[Enumerable]]
+    不支持 Object.defineProperty 方法的浏览器中，不能修改 [[Configurable]], [[Enumerable]]  
+
+### 6.1.2 一次定义多个属性 Object.defineProperties (IE8及以下不支持)  
+### 6.1.3 读取属性特性 Object.getOwnPropertyDescriptor(obj, xxx)  
+
+> 通过该方法，可以得知，对于通过字面量定义的对象，无论属性是基本类型，函数还是对象，属性均为数据属性。  
+
+## 6.2 创建对象  
+
+. Object ， 字面量：缺陷，大量重复代码  
+. 工厂模式： 缺陷，创建的对象没有类型   
+. 构造函数： 优点，有类型（instanceof）; 缺点，需要为每个实例创建方法，各个实例之间方法并不相等  
+
+### 6.2.3  
+
+    我们创建的每个函数，都有一个prototype属性，该属性是一个指向函数原型对象的指针。原型对象的用途是包含由某中特定类型的对象所共享的属性和方法。  
+
+#### 理解原型对象  
+
+. 创建一个函数时，默认的原型对象会自动包含一个 constructor 属性，该属性是一个指针，指向原型对象所在函数，即构造函数。至于原型对象中的其他方法，都是从Object继承而来的。  
+. 构造函数的每个实例，有一个内部属性[[prototype]]（某些浏览器环境中，可以通过 __proto__ 来访问），改属性是一个指针，指向构造函数的原型对象。注意：从某种程度上讲，实例和构造函数没有直接关系，实例的 __proto__ 指向的是构造函数的原型对象。  
+. 实例的同名属性会覆盖原型对象的属性，如需继续访问原型属性，可通过 delete 删除实例属性
+
+    Person.prototype.isPrototypeOf(person)  //true  
+    Object.getPrototypeOf(person) === Person.prototype  //true  Object.getPrototypeOf IE8及一下不支持  
+    getOwnPropertyDescriptor 只能获取实例自身属性特性，如需获取原型属性特性，将该方法应用到原型对象  
+
+#### 原型 与 in操作符  
+
+. 只要属性能访问到（无论在实例中还是原型中）均返回true  
+. !person.hasOwnproperty(xxx) && (xxx in person)  判断 xxx 是原型属性  
+. for in : 遍历所有可枚举属性（Enumerable 为true）, 无论是实例还是原型对象中的属性  
+. 只获取实例属性：Object.keys (可枚举属性)， Object.getOwnPropertyNames (所有属性key)  
+. 更简单的原型语法：   
+
+    function Person(){}   
+    // 第一种方法
+    Person.prototype = {   // 直接重新原型对象，会导致无法正确使用 constructor判断实例类型  
+        name: 'aaa',   
+        sayName: function(){}   
+    }  
+    // 第二种方法 
+    Person.prototype = {   // 这种方式使得 constructor 成为可遍历，原型对象自动获得的constructor是不可遍历的 
+        constructor: Person
+        name: 'aaa',   
+        sayName: function(){}   
+    }  
+    // 第三种方法  
+    Person.prototype = {    
+        name: 'aaa',   
+        sayName: function(){}   
+    }  
+    Object.defineProperty(Person.prototype, 'constructor', {
+        value: Person,
+        enumerable: false
+    })  
+    
+. 原型的动态性：可以随时修改原型的方法和属性，并及时反应到原型的所有实例上，这归结于实例和原型之间的松散连接关系。但是不可以重写原型对象，会切断现有实例和当前原型的联系，因为现有实例原型仍指向重写前原型对象。
+
+
+
