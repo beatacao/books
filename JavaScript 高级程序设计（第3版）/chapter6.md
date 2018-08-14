@@ -34,6 +34,11 @@
 . Object ， 字面量：缺陷，大量重复代码  
 . 工厂模式： 缺陷，创建的对象没有类型   
 . 构造函数： 优点，有类型（instanceof）; 缺点，需要为每个实例创建方法，各个实例之间方法并不相等  
+. 原型模式  
+. 组合使用原型模式和构造函数模式  
+. 动态原型模式  
+. 寄生构造函数模式  
+. 稳妥构造函数模式  
 
 ### 6.2.3  
 
@@ -80,6 +85,46 @@
     })  
     
 . 原型的动态性：可以随时修改原型的方法和属性，并及时反应到原型的所有实例上，这归结于实例和原型之间的松散连接关系。但是不可以重写原型对象，会切断现有实例和当前原型的联系，因为现有实例原型仍指向重写前原型对象。
+
+    该书认为：原型模式，即把所有属性和方法定义到prototype的方式。而在构造函数定义特殊属性，共用属性定义在prototype的方式为构造函数模式和原型模式组合使用  
+
+### 6.2.6 寄生构造函数模式  
+    该模式可以用于为对象创建特殊的构造函数。例如：不修改原生对象原型的情况下，生成某些原生对象实例，这些实例拥有对原生对象的扩展，如下：  
+    function SpecailArray(){  
+        var values = new Array()   
+        values.push.apply(values, arguments)    
+        values.toPipedString = function(){  
+            return this.join('|')  
+        }  
+        return values  
+    }  
+    var colors = new SpecialArray('red', 'yellow', 'blue')   
+    colors.toPipedString()  
+
+    > 通过寄生构造函数创建的对象，与寄生构造函数与其原型都没有关系。因此使用 instanceof 操作符无法判断。  
+### 6.2.7 稳妥构造函数模式  
+    稳妥对象：没有公共属性，而且其方法也不引用this. 适合在安全环境（禁止使用this和new）下的代码。  
+    稳妥构造函数（安全性）和寄生构造函数一样（不过只能通过其定义的方法访问属性，不能直接访问传入的原始数据），不过创建对象时，不适用new操作符。其创建的对象同样和构造函数及原型没有关系，instanceof 也无意义。  
+
+    function Person(name){  
+        var person = new Object()
+        person.sayName = function(){
+            console.log(name)
+        }
+        return person
+    }  
+    var p1= Person('xiaoming')  //name属性只能通过方法sayName访问，不能直接访问原始输入  
+
+## 6.3 继承  
+
+    面向对象继承包括两种方式：接口继承（只继承签名）和实现继承（继承实际的方法）；由于函数没有签名，所以ECMAScript只支持实现继承，无法实现接口继承，而其实现继承主要依靠原型链。  
+
+JavaScript 中的继承主要通过原型链实现。  
+
+继承笔记 ----- 待详细
+
+
+
 
 
 
