@@ -26,3 +26,10 @@
     git config --global user.email XXX@xx.com
 
 这个操作就是为了刷新config，使修改生效。
+
+
+二、 无限递归的对象中，找找某个对象，并返回该对象路径   
+
+  
+
+
