@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>chapter10 相关实践</title>
+    <style>
+    </style>
+</head>
+
+<body>  
+    <p>文档写入，document.write, document.writeln, document.open, document.close;</p>
+    <p>document.write, document.writeln 在文档加载过程中使用和文档加载完毕使用的区别</p>
+    <script>
+        // open will clear the document, default called before every document.write
+        document.open()
+        document.write('<p>I\'m the write</p>')
+        document.close()
+        document.write('closed')
+        window.onload = function(){
+            document.write('rewrite the whole document')
+        }
+    </script>
+</body>
+
+</html>
