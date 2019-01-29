@@ -25,6 +25,15 @@ oauth
     https://www.jianshu.com/p/a047176d9d65
 
 
-cookie/session/token
+cookie/session/token 
+
+    参考：   
+    https://abigaleyu.co/2017/07/28/cookie-session-token/    
+    https://harttle.land/2015/08/10/cookie-session.html    cookie 容易被篡改；session: 防止篡改，但是被盗用后，可以重放   
+    https://www.jianshu.com/p/c33f5777c2eb    cookie/session: 有状态（服务器或浏览器端需要一直保存状态），token无状态  
+    https://blog.csdn.net/Jmilk/article/details/55686267   session，token优缺点   
+    https://segmentfault.com/a/1190000013010835#articleHeader0  
+
+
 jwt
 cas
