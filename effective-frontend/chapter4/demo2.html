@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<head>
+    <title>理解和应用css3动画</title>
+    <style>
+        /* demo1 滚动的轮子 开始 */
+        @keyframes scroll{
+            /* 在时间轴的若干位置插入关键帧，浏览器根据关键帧内容做出过渡效果 */
+            100% {
+                transform: translateX(350px) rotate(800deg);
+            }
+        }
+        .scrollcircle{
+            width: 400px;
+            border-bottom:1px solid #000;
+        }
+        .scrollcircle .circle{
+            position:relative;
+            width:50px; height:50px; border-radius:25px; background: red;
+            /* 设置动画时间，使用的动画名称，过渡曲线及循环 */
+            animation: scroll 3s ease infinite;
+        }
+        .scrollcircle .circle .line{
+            position:absolute; width:25px; height:1px; top:24px; right:0; background: #fff;
+        }
+        /* demo1 滚动的轮子 结束 */
+
+        @keyframes rotation{
+            0%{
+                transform: translateY(0) rotate(0)
+            }
+            25%{
+                transform: translateY(-30px) rotate(90deg)
+            }
+
+            50%{
+                transform: translateY(0) rotate(180deg)
+            }
+            75%{
+                transform: translateY(30px)  rotate(270deg)
+            }
+            100%{
+                transform: translateY(0) rotate(1turn)
+            }
+        }
+        .galaxy{
+            position: relative;
+            width: 600px; height:600px; border: 1px solid #ccc;
+        }
+        .galaxy .earch{
+            position:absolute; left:290px; top:290px;
+            width:20px; height:20px; background: green; border-radius: 10px;
+        }
+        .galaxy .mercury{
+            position: absolute; width:40px; height:40px; border-radius: 20px; background: pink; 
+            left:380px; top: 280px;
+            transform-origin: -80px 20px;
+            animation: rotation 2.4s linear infinite;
+        }
+        /* demo3 */
+        @keyframes clock{
+            from{
+                transform: rotate(90deg)
+            }
+            to{
+                transform: rotate(450deg)
+            }
+        }
+        .clock{
+            position:relative;
+            width:100px; height:100px; border-radius: 56px; border: 6px solid #ddd;
+        }
+        .second{
+            position:absolute; top:50%; left:0; 
+            width:50px; height:2px; background:#000; 
+            transform-origin: 100% 1px;
+            animation: clock 60s steps(60) infinite;
+        }
+    </style>
+</head>
+<body>
+    <h3>demo1 scrollcircle</h3>
+    <div class="demo1 scrollcircle">
+        <div class="circle">
+            <span class="line"></span>
+        </div>
+    </div>
+    <h3>demo2 椭圆银河系</h3>
+    <div class="demo2 galaxy">
+        <div class="earch"></div>
+        <div class="mercury"></div>
+        
+    </div>
+    <h3>demo3 clock: steps</h3>
+    <div class="clock">
+        <div class="second"></div>
+    </div>
+</body>
+</html>

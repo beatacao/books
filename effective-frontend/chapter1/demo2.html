@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+    <title>伪元素应用</title>
+    <style>
+    /* 伪元素清除浮动 */
+    .wrapper .child.float{
+        float:left; width: 100px;
+    }
+    .wrapper .child.float:nth-child(1){
+        height:200px; background: pink;
+    }
+    .wrapper .child.float:nth-child(2){
+        height: 100px; background: gray;
+    }
+    .wrapper .child.float:nth-child(3){
+        height:80px; background: burlywood;
+    }
+    .brother-element{
+        height:500px; width:100%; background: aquamarine;
+    }
+    .clearfix:after{
+        content: '';
+        clear:both; 
+        display:block;
+    }
+    /* 伪元素实现计数器 */
+    .demo2 .content{
+        counter-reset: fruit-counter;
+    }
+    .demo2 .content input:checked{
+        counter-increment: fruit-counter;
+    }
+    .demo2 .counts:after{
+        content: counter(fruit-counter)
+    }
+    </style>
+</head>
+<body>
+    <!-- 伪元素：清除浮动 -->
+    <div class="demo1">
+        <div class="wrapper clearfix">
+            <div class="child float">a</div>
+            <div class="child float">b</div>
+            <div class="child float">c</div>
+        </div>
+        <!-- 浮动元素的父级元素后面出现的兄弟元素如果是块元素，清除浮动前，该块元素的top起始位置为wrapper的top起始位置并且内容会围绕wrapper子元素排列，因为浮动的子元素并没有把wrapper父级的高度撑开 -->
+        <!-- <div class="brother-element">d</div> -->
+        <!-- 浮动元素父级元素后面后面出现的兄弟元素如果是inline元素，这些inline元素将上移并见缝插针式的围绕wrapper子元素渲染 -->
+        <span>inline brother-element1</span><span>inline brother-element2</span><span>inline brother-element3</span><span>inline brother-element4</span>
+    </div>
+    <!-- 使用css计数器和伪元素，显示当前选择选中个数 -->
+    <div class="demo2">
+        <p class='content'>
+            <label><input type="checkbox"/>苹果</label>
+            <label><input type="checkbox"/>梨子</label>
+            <label><input type="checkbox"/>李子</label>
+        </p>
+        <p>Total selected: <span class="counts"></span></p>
+    </div>
+    <!-- ASCII 编码游戏 -->
+    
+</body>
+</html>

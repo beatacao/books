@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+    <title>css 应用技巧</title>
+    <style>
+        .custom-radio input{
+            display:none;
+        }
+        .custom-radio .radio{
+            position:relative; top:-5px; margin-right:3px;
+            padding:6px; background: #fff; border:1px solid #ccc; border-radius: 10px; font-size:0;
+        }
+        .custom-radio input:checked + .radio{
+            border-color: #3fd1ef; background: #3fd1ef;
+        }
+        .custom-radio input:checked + .radio:after{
+            content: '';
+            padding: 2px;
+            background: #fff;
+            border-radius: 2px;
+            font-size: 0;
+            position: absolute;
+            top: 4px;
+            right: 4px;
+        }
+        .custom-title{
+            position: relative;
+        }
+        .custom-title:hover:after{
+            position:absolute; left:10px; top:100%; max-width:80%; border: 1px solid #ccc; border-radius: 5px; padding: 10px;
+            word-wrap: break-word; word-break: break-all;
+            content: attr(data-title)
+        }
+    </style>
+</head>
+<body>
+    <!-- 伪类实现自定义radio样式 -->
+    <label class='custom-radio'>
+        <input type="radio" />
+        <span class='radio'></span>
+        custom-radio1
+    </label>
+    <!-- 伪元素 + css3 attr 属性实现 title 效果 -->
+    <ul>
+        <li class='custom-title' data-title='li1：long title may be cutted off long title may be cutted off long title may be cutted off long title may be cutted off long title may be cutted off long title may be cutted off '>
+            li1：long title may be cutted off long title may be cutted off long title may be cutted off long title may be cutted off long title may be cutted off long title may be cutted off 
+        </li>
+    </ul>
+</body>
+</html>
