@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<head>
+    <title>history/hash 前进后退</title>
+</head>
+<body>
+    <button id='prev'>prev</button>
+    <span id="page"></span>
+    <button id='next'>next</button>
+    <script>
+    (function(){
+        var prev = document.getElementById('prev')
+        var next = document.getElementById('next')
+        var page = document.getElementById('page')
+        var current_page = 0
+        
+        function newXHR(){
+            // history.pushState 或 replaceState 会改变ajax的referer
+            var xhr = new XMLHttpRequest()
+            xhr.open('get', '/test_xhr')
+            xhr.send(null)
+        }
+
+        function makeRequest(current_page){
+            page.innerText = current_page
+            
+        }
+
+        // history --------------------- start
+        function saveState(current_page){
+            try{
+                if(window.history && window.history.state){
+                    window.history.state = current_page
+                }else if(window.localStorage){
+                    window.localStorage.setItem('state', {page: current_page})
+                }
+                var url = window.location.protocol + '//' + window.location.hostname + ':7788' + window.location.pathname + '?page=' + current_page
+                window.history.pushState({page: current_page}, null, url)
+            }catch(err){
+                console.log(err)
+            }
+        }
+
+        try{
+            var cachePage
+            // 支持刷新当前页，分享连接，从url获取page
+            // 实现省略
+
+            if(window.history && window.history.state){
+                cachePage = window.history.state && window.history.state.page
+            }else if(window.localStorage && window.localStorage.getItem('state')){
+                cachePage = window.localStorage.getItem('state') && window.localStorage.getItem('state').page
+            }
+            current_page = cachePage || current_page
+            page.innerText = current_page
+            var url = window.location.protocol + '//' + window.location.hostname + ':7788' + window.location.pathname + '?page=' + current_page
+            if(cachePage || cachePage === 0){
+                window.history.replaceState({page: current_page}, null, url)
+            }else{
+                saveState(current_page)
+            }
+            
+            
+        }catch(err){
+            console.log(err)
+        }
+
+        window.onpopstate = function(e){
+            if(e.state && (e.state.page || e.state.page === 0)){
+                current_page = e.state.page
+            }else if(window.localStorage && window.localStorage.getItem('state')){
+                current_page = window.localStorage.getItem('state').page
+            }
+            makeRequest(current_page)
+        }
+
+        // history --------------------------------- end
+
+        // hash ---------------------------------- start 
+        // function saveState(current_page){
+        //     window.location.hash ='#page=' + current_page
+        // }
+        
+        // var cachePage = window.location.hash.replace('#page=', '')
+        // current_page = cachePage || current_page
+        // if(!cachePage && (cachePage !== 0)){
+        //     window.location.hash = '#page=' + current_page
+        // }
+        // page.innerText = current_page
+
+        // window.addEventListener('hashchange', function(){
+        //     current_page = window.location.hash.replace('#page=', '')
+        //     makeRequest(current_page)
+        // })
+        // hash ---------------------------------- end
+
+        prev.onclick = function(){
+            if(current_page > 0){
+                current_page--
+                makeRequest(current_page)
+            }
+        }
+        next.onclick = function(){
+            current_page++
+            makeRequest(current_page)
+            saveState(current_page)
+        }
+        
+        
+    })()
+    </script>
+</body>
+</html>
