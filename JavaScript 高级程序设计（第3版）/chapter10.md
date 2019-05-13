@@ -60,7 +60,13 @@
 
     document.createComment; comment 节点的 data 属性获取注释内容   
 
-### 10.1.6 CDATASection ： xml 文档类型的注释
+### 10.1.6 CDATASection ： xml 文档类型的注释   
+
+### 10.2.3 使用 Nodelist   
+
+    Nodelist , NamedNodeMap, HTMLCollection 都是‘动态的’，即每当文档结构发生变化，它们都会得到更新，并且每次访问都会对文档进行一次查询。    
+    死循环实例及解决方法。    
+    
     
 
 
