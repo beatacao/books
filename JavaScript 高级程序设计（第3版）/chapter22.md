@@ -53,6 +53,47 @@
     sliceshort(arguments)
 ```
 
+### 柯里化函数
+
+## 防篡改对象
+```
+    对Javascript库的开发者来说，保证核心功能不被有意或无意的篡改，是很重要的。
+    而js共享的本质，使得在同一环境下运行的代码可以任意修改对象。
+    ECMAScript5 致力于解决这个问题，让开发人员可以自定义防篡改对象。
+```
+### 一级防篡改（preventExtensions）
+* Object.preventExtensios(obj): obj不能扩展属性和方法（非严格模式静默失败，严格模式报错），可以修改属性和方法的赋值
+* Object.isExtensible(obj) 判断
+
+### 二级防篡改（seal）
+* Object.seal(obj): 不能扩展；不能修改数据属性为访问器属性，反之也不行。可以修改属性和方法的赋值。
+* Object.isSealed(obj)
+
+### 三级防篡改（freeze）
+* Object.freeze(obj): 不能扩展，不能在数据属性和访问器属性之间改变，不能修改属性值；如果设置了[[set]]，还是可以通过访问器属性修改属性值。
+* Object.isForzen(obj)
+
+## 高级定时器
+
+### 重复定时器
+* setInterval 存在的问题：1、某些间隔会被忽略跳过（并不会添加到队列）；2、多个定时器代码执行间隔可能小于设定的时间    
+* 解决以上两个问题，设定重复定时器： setTimeout 嵌套调用   
+* 每个浏览器窗口，标签页和frame都有自己独立的执行队列，进行跨域定时调用时，如果代码同时执行可能导致竞争条件。因此跨域定时调用，最好在接收窗口或frame建立一个定时器来执行代码。   
+ 
+## Yeilding Processes  
+```
+    不同于桌面应用（往往能够随意控制代码运行所需的内存和时间），运行在浏览器中的js只被分配了有限数量的资源，运行受到严格的限制。
+    其中一个限制是长时间运行的脚本，如果运行时间超过限定时长或超过限定语句数量，就不允许默认继续执行。
+```
+* 数组分块（array chunking）
+* 函数节流（throttle）
+
+## 自定义事件
+* 事件是一种观察者设计模式，可以创建松耦合代码。    
+* 拖放（鼠标拖尾）
+
+
+
 # 扩展参考资料
 * https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/typeof
 * 安全类型检测：https://flycode.co/archives/241735
