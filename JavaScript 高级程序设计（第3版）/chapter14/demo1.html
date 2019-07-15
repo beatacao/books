@@ -10,15 +10,27 @@
 
 <body>  
     <form action="/api/test">
-        <input type="text" name="name" id="" value='initname'/>
+        <!-- input:text size属性其实就是控制了input的宽度，使其只能显示固定数量的字符 -->
+        <input autofocus type="text" name="name" id="input" value='initname' size='10' maxlength='20'/>
         <!-- 通过js改变隐藏域的值，reset不能恢复 -->
         <input type="hidden" name="test" value='inittest'>
-        <!-- 点击可以触发表单提交的三种元素 -->
+        <!-- 点击可以触发表单提交的四种元素，button按钮不设置type, 默认type为submit -->
         <button type='submit'>submit</button>
         <!-- <input type="submit" value="submit"/>
+            <button>submit</button>
         <input type="image" src="1.jpg" alt="click me to submit" /> -->
-        <button type='reset'>reset</button>
+        <button type='reset' tabIndex="-1">reset</button>
     </form>
+    <script>
+    // textarea 和 input 是在值改变并且blur后，才触发 onchange
+    // select 是改变选项值就会触发 onchange
+    document.getElementById('input').onchange = function(e){
+        console.log(e)
+        var e = e || window.event
+        var target = e.target || e.srcElement
+        console.log(target.value)
+    }
+    </script>
 </body>
 
 </html>
