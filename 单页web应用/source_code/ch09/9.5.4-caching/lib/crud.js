@@ -23,7 +23,7 @@ var
   cache       = require( './cache' ),
 
   mongoServer = new mongodb.Server(
-    'localhost',
+    '10.107.97.139',
     mongodb.Connection.DEFAULT_PORT
   ),
   dbHandle    = new mongodb.Db(
@@ -32,6 +32,7 @@ var
   validator   = JSV.createEnvironment(),
 
   objTypeMap  = { 'user' : {} };
+  console.log('port: ', mongodb.Connection.DEFAULT_PORT)
 // ------------- END MODULE SCOPE VARIABLES ---------------
 
 // ---------------- BEGIN UTILITY METHODS -----------------
@@ -108,6 +109,7 @@ constructObj = function ( obj_type, obj_map, callback ) {
 };
 
 readObj = function ( obj_type, find_map, fields_map, callback ) {
+  // user, {name: peach}. {}. cb
   var type_check_map = checkType( obj_type );
   if ( type_check_map ) {
     callback( type_check_map );
@@ -118,8 +120,13 @@ readObj = function ( obj_type, find_map, fields_map, callback ) {
     dbHandle.collection(
       obj_type,
       function ( outer_error, collection ) {
+        console.log('outer_error: ', outer_error)
+        console.log('collection: ', collection)
         collection.find( find_map, fields_map ).toArray(
           function ( inner_error, map_list ) {
+            console.log('inner_error: ', inner_error)
+            console.log('map_list: ', map_list)
+            map_list = 'peach'
             cache.setValue( find_map, map_list );
             callback( map_list );
           }

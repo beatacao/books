@@ -35,7 +35,8 @@ getValue = function ( key, hit_callback, miss_callback ) {
   redisClient.get(
     makeString( key ),
     function( err, reply ) {
-      if ( reply ) {
+      
+      if ( reply && (reply + '' !== 'null') ) {
         console.log( 'HIT' );
         hit_callback( reply );
       }
